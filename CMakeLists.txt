@@ -1,4 +1,4 @@
-# Ref: https://google.github.io/googletest/quickstart-cmake.html
+# CMP0135 requires at least CMake v3.24
 cmake_minimum_required(VERSION 3.24)
 project(monlib)
 
@@ -6,25 +6,15 @@ project(monlib)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
+add_library(monlib
+    src/party.cpp
 )
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
-add_executable(
-  hello_test
-  hello_test.cpp
-)
-target_link_libraries(
-  hello_test
-  GTest::gtest_main
+target_include_directories(monlib PUBLIC
+    include
 )
 
-include(GoogleTest)
-gtest_discover_tests(hello_test)
+option(MONLIB_BUILD_TESTING "..." ON)
+if (MONLIB_BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
