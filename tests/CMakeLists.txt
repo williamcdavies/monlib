@@ -9,6 +9,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(monlib_test
+    mon_test.cpp
     party_test.cpp
 )
 target_link_libraries(monlib_test
