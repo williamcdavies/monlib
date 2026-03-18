@@ -6,11 +6,11 @@ namespace monlib {
 
 
 class party {
-
+    
 };
 
 
-}
+} // namespace monlib
 
 
 #endif // PARTY_HPP
