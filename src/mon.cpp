@@ -8,15 +8,13 @@
 namespace monlib {
 
 
-    mon::mon(std::unordered_map<std::string, std::string> data) { this->data = data; }
+    mon::mon(const std::unordered_map<std::string, std::string>& data) { this->data = data; }
 
-
-    std::string mon::get(std::string key) { 
-        auto it = this->data.find(key);
-        if (it == this->data.end()) throw std::out_of_range("Key '" + key + "' not found");
-
-        return it->second;
-    }
     
+    template<>
+    std::string mon::get<std::string>(const std::string& key) const {
+        return this->data.at(key);
+    }
+
 
 } // namespace monlib

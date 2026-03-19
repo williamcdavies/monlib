@@ -1,6 +1,8 @@
 #ifndef MON_HPP
 #define MON_HPP
 
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 
@@ -14,9 +16,21 @@ namespace monlib {
         
         public:
             mon() = default;
-            mon(std::unordered_map<std::string, std::string> data);
+            mon(const std::unordered_map<std::string, std::string>& data);
 
-            std::string get(std::string key);
+            template<typename T = std::string>
+            T get(const std::string& key) const {
+                T                 value;
+                std::stringstream ss(this->data.at(key));
+
+                ss >> value;
+                if (ss.fail()) throw std::invalid_argument("Value bound to key '" + key + "' cannot be resolved as specified type");
+
+                return value;
+            }
+
+            template<>
+            std::string get<std::string>(const std::string& key) const;
     };
 
 
