@@ -44,23 +44,23 @@ TEST(MonTest, CanConstructMonObject) {
 
 TEST(MonTest, CanConstructMonObjectFromParameters) {
     monlib::mon mon(std::unordered_map<std::string, std::string>{{"valid_key", "valid_value"}});
-    ASSERT_EQ(mon.get("valid_key"), "valid_value");
+    ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
 }
 
 
 TEST(MonTest, CanConstructMonObjectFromReference) {
     monlib::mon mon(monlib::mon(std::unordered_map<std::string, std::string>{{"valid_key", "valid_value"}}));
-    ASSERT_EQ(mon.get("valid_key"), "valid_value");
+    ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
 }
 
 
 TEST_F(MonFixture, GetValidKeyReturnsValidValue) {
-    ASSERT_EQ(mon.get("valid_key"), "valid_value");
+    ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
 }
 
 
 TEST_F(MonFixture, GetInvalidKeyThrowsOutOfRange) {
-    ASSERT_THROW(mon.get("invalid_key"), std::out_of_range);
+    ASSERT_THROW(mon.get<std::string>("invalid_key"), std::out_of_range);
 }
 
 
@@ -191,6 +191,16 @@ TEST_F(MonFixture, GetIntReturnsValidValue) {
 
 TEST_F(MonFixture, GetIntOnInvalidValueThrowsInvalidArgument) {
     ASSERT_THROW(mon.get<int>("valid_key"), std::invalid_argument);
+}
+
+
+TEST_F(MonFixture, GetOrValidKeyReturnsValidValue) {
+    ASSERT_EQ(mon.get_or<std::string>("valid_key", "valid_fallback"), "valid_value");
+}
+
+
+TEST_F(MonFixture, GetOrInvalidKeyReturnsValidFallback) {
+    ASSERT_EQ(mon.get_or<std::string>("invalid_key", "valid_fallback"), "valid_fallback");
 }
 
 
