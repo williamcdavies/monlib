@@ -192,3 +192,13 @@ TEST_F(MonFixture, GetIntReturnsValidValue) {
 TEST_F(MonFixture, GetIntOnInvalidValueThrowsInvalidArgument) {
     ASSERT_THROW(mon.get<int>("valid_key"), std::invalid_argument);
 }
+
+
+TEST_F(MonFixture, HasValidKeyReturnsTrue) {
+    ASSERT_EQ(mon.has("valid_key"), true);
+}
+
+
+TEST_F(MonFixture, HasInvalidKeyReturnsFalse) {
+    ASSERT_EQ(mon.has("invalid_key"), false);
+}
