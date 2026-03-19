@@ -21,7 +21,7 @@ namespace monlib {
 
 
             /* mon::get */
-            template<typename T = std::string>
+            template<typename T>
             T get(const std::string& key) const {
                 T                 value;
                 std::stringstream ss(this->data.at(key));
@@ -34,6 +34,15 @@ namespace monlib {
 
             template<>
             std::string get<std::string>(const std::string& key) const;
+
+
+            /* mon::get_or */
+            template<typename T>
+            T get_or(const std::string& key, const T& fallback) const {
+                if (this->has(key)) return this->get<T>(key);
+                
+                return fallback;
+            }
 
 
             /* mon::has */
