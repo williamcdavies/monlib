@@ -15,9 +15,12 @@ namespace monlib {
             std::unordered_map<std::string, std::string> data;
         
         public:
+            /* mon::mon */
             mon() = default;
             mon(const std::unordered_map<std::string, std::string>& data);
 
+
+            /* mon::get */
             template<typename T = std::string>
             T get(const std::string& key) const {
                 T                 value;
@@ -31,6 +34,10 @@ namespace monlib {
 
             template<>
             std::string get<std::string>(const std::string& key) const;
+
+
+            /* mon::has */
+            bool has(const std::string& key) const;
     };
 
 
