@@ -36,15 +36,6 @@ namespace monlib {
             std::string get<std::string>(const std::string& key) const;
 
 
-            /* mon::get_or */
-            template<typename T>
-            T get_or(const std::string& key, const T& fallback) const {
-                if (this->has(key)) return this->get<T>(key);
-                
-                return fallback;
-            }
-
-
             /* mon::has */
             bool has(const std::string& key) const;
     };

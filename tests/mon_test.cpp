@@ -194,16 +194,6 @@ TEST_F(MonFixture, GetIntOnInvalidValueThrowsInvalidArgument) {
 }
 
 
-TEST_F(MonFixture, GetOrValidKeyReturnsValidValue) {
-    ASSERT_EQ(mon.get_or<std::string>("valid_key", "valid_fallback"), "valid_value");
-}
-
-
-TEST_F(MonFixture, GetOrInvalidKeyReturnsValidFallback) {
-    ASSERT_EQ(mon.get_or<std::string>("invalid_key", "valid_fallback"), "valid_fallback");
-}
-
-
 TEST_F(MonFixture, HasValidKeyReturnsTrue) {
     ASSERT_EQ(mon.has("valid_key"), true);
 }
