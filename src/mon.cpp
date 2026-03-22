@@ -15,6 +15,8 @@ namespace monlib {
     /* mon::get */
     template<>
     std::string mon::get<std::string>(const std::string& key) const {
+        if (!this->has(key)) throw std::out_of_range("Key '" + key + "' does not exist");
+
         return this->data.at(key);
     }
 

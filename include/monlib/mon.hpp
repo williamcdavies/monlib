@@ -23,17 +23,23 @@ namespace monlib {
             /* mon::get */
             template<typename T>
             T get(const std::string& key) const {
-                T                 value;
-                std::stringstream ss(this->data.at(key));
+                if (!this->has(key)) throw std::out_of_range("Key '" + key + "' does not exist");
+
+                T                  value;
+                const std::string& value_as_string = this->data.at(key);
+                std::stringstream  ss(value_as_string);
 
                 ss >> value;
-                if (ss.fail()) throw std::invalid_argument("Value bound to key '" + key + "' cannot be resolved as specified type");
+                if (ss.fail()) throw std::invalid_argument("Value '" + value_as_string + "' bound to key '" + key + "' cannot be resolved as specified type");
 
                 return value;
             }
 
             template<>
             std::string get<std::string>(const std::string& key) const;
+
+
+            /* mon::set */
 
 
             /* mon::has */

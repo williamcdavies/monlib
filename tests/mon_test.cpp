@@ -54,12 +54,12 @@ TEST(MonTest, CanConstructMonObjectFromReference) {
 }
 
 
-TEST_F(MonFixture, GetValidKeyReturnsValidValue) {
+TEST_F(MonFixture, GetOnValidKeyReturnsValidValue) {
     ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
 }
 
 
-TEST_F(MonFixture, GetInvalidKeyThrowsOutOfRange) {
+TEST_F(MonFixture, GetOnInvalidKeyThrowsOutOfRange) {
     ASSERT_THROW(mon.get<std::string>("invalid_key"), std::out_of_range);
 }
 
@@ -194,11 +194,11 @@ TEST_F(MonFixture, GetIntOnInvalidValueThrowsInvalidArgument) {
 }
 
 
-TEST_F(MonFixture, HasValidKeyReturnsTrue) {
+TEST_F(MonFixture, HasOnValidKeyReturnsTrue) {
     ASSERT_EQ(mon.has("valid_key"), true);
 }
 
 
-TEST_F(MonFixture, HasInvalidKeyReturnsFalse) {
+TEST_F(MonFixture, HasOnInvalidKeyReturnsFalse) {
     ASSERT_EQ(mon.has("invalid_key"), false);
 }
