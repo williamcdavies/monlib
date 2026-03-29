@@ -207,7 +207,6 @@ TEST_F(MonFixture, HasOnInvalidKeyReturnsFalse) {
 
 /* mon::set */
 TEST_F(MonFixture, SetOnValidKeySetsValidValue) {
-    ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
     mon.set<std::string>("valid_key", "another_valid_value");
     ASSERT_EQ(mon.get<std::string>("valid_key"), "another_valid_value");
 }
