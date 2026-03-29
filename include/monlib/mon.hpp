@@ -40,6 +40,13 @@ namespace monlib {
 
 
             /* mon::set */
+            template<typename T>
+            void set(const std::string& key, const std::string& value) {
+                
+            }
+
+            template<>
+            void set<std::string>(const std::string& key, const std::string& value);
 
 
             /* mon::has */

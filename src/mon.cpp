@@ -21,6 +21,15 @@ namespace monlib {
     }
 
 
+    /* mon::set */
+    template<>
+    void mon::set<std::string>(const std::string& key, const std::string& value) {
+        if (!this->has(key)) throw std::out_of_range("Key '" + key + "' does not exist");
+
+        this->data.at(key) = value;
+    }
+
+
     /* mon::has */
     bool mon::has(const std::string& key) const {
         if(this->data.find(key) == this->data.end()) {
