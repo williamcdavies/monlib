@@ -36,6 +36,7 @@ class MonFixture : public ::testing::Test {
 };
 
 
+/* mon::mon */
 TEST(MonTest, CanConstructMonObject) {
     monlib::mon mon;
 }
@@ -53,6 +54,7 @@ TEST(MonTest, CanConstructMonObjectFromReference) {
 }
 
 
+/* mon::get */
 TEST_F(MonFixture, GetOnValidKeyReturnsValidValue) {
     ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
 }
@@ -200,4 +202,16 @@ TEST_F(MonFixture, HasOnValidKeyReturnsTrue) {
 
 TEST_F(MonFixture, HasOnInvalidKeyReturnsFalse) {
     ASSERT_EQ(mon.has("invalid_key"), false);
+}
+
+
+/* mon::set */
+TEST_F(MonFixture, SetOnValidKeySetsValidValue) {
+    ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
+    mon.set<std::string>("valid_key", "another_valid_value");
+    ASSERT_EQ(mon.get<std::string>("valid_key"), "another_valid_value");
+}
+
+TEST_F(MonFixture, SetOnInvalidKeyThrowsOutOfRange) {
+    ASSERT_THROW(mon.set<std::string>("invalid_key", "another_valid_value"), std::out_of_range);
 }
