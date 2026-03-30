@@ -41,8 +41,15 @@ namespace monlib {
 
             /* mon::set */
             template<typename T>
-            void set(const std::string& key, const std::string& value) {
+            void set(const std::string& key, const T& value) {
+                if (!this->has(key)) throw std::out_of_range("Key '" + key + "' does not exist");
+
+                std::stringstream  ss;
                 
+                ss << value;
+                if (ss.fail()) throw std::invalid_argument("Value cannot be serialized to string");
+
+                this->data.at(key) = ss.str();
             }
 
             template<>
