@@ -1,5 +1,9 @@
 {
-    "test_mon": {
-        "valid_key": "valid_value"
+    "Bulbasaur": {
+        "id": 1,
+        "type": [
+            "grass",
+            "poison"
+        ]
     }
 }

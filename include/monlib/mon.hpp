@@ -19,6 +19,7 @@ namespace monlib {
             mon() = default;
             mon(const nlohmann::json& root, const std::string& primary_key);
 
+            
             /* mon::get */
             template <typename T>
             T get(const std::string& key) const {
@@ -26,6 +27,7 @@ namespace monlib {
 
                 return this->data_.at(key).get<T>();
             }
+
 
             /* mon::get_ptr */
             template <typename T>
@@ -44,6 +46,7 @@ namespace monlib {
                 return this->data_.at(key).get_ref<T&>();
             }
 
+
             /* mon::set */
             template <typename T>
             void set(const std::string& key, const T& value) {
@@ -51,6 +54,7 @@ namespace monlib {
                 
                 this->data_[key] = value;
             }
+
 
             /* mon::has */
             bool has(const std::string& key) const;
