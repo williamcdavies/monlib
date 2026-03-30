@@ -8,14 +8,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(monlib_test
-    mon_test.cpp
-    party_test.cpp
-)
-target_link_libraries(monlib_test
-    GTest::gtest_main
-    monlib
-)
-
 include(GoogleTest)
-gtest_discover_tests(monlib_test)
+
+add_subdirectory(mon_tests)
+add_subdirectory(party_tests)
