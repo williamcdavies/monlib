@@ -8,16 +8,15 @@
 namespace monlib {
 
 
-class party {
-    private:
-        std::vector<monlib::mon> mons_;
+    class party {
+        private:
+            std::vector<monlib::mon> mons_;
 
-    public:
-        /* party::party */
-        party() = default;
-        party(const std::vector<monlib::mon>& mons);
-
-};
+        public:
+            /* party::party */
+            party() = default;
+            party(const std::vector<monlib::mon>& mons);
+    };
 
 
 } // namespace monlib
