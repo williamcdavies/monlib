@@ -1,11 +1,18 @@
 #include <gtest/gtest.h>
 #include <monlib/mon.hpp>
 
+#include <fstream>
+#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
+
 
 class MonFixture : public ::testing::Test {
     protected:
         void SetUp() override {
-            mon = monlib::mon{};
+            std::ifstream  data_file{ "data/mon_test.json"             };
+            nlohmann::json data     { nlohmann::json::parse(data_file) };
+            
+            mon = monlib::mon{ data, "id" };
         }
 
         void TearDown() override {
@@ -22,11 +29,13 @@ TEST(MonTest, CanConstructMonObject) {
 }
 
 
-TEST(PartyTest, CanConstructPartyObjectFromParameters) {
-    
+TEST(MonTest, CanConstructMonObjectFromParameters) {
+    std::ifstream data_file{ "data/mon_test.json"                         };
+    monlib::mon   mon      { nlohmann::json::parse(data_file), "test_mon" };
 }
 
 
-TEST(PartyTest, CanConstructPartyObjectFromReference) {
-    
+TEST(MonTest, CanConstructMonObjectFromReference) {
+    std::ifstream data_file{ "data/mon_test.json"                                        };
+    monlib::mon   mon      { monlib::mon{ nlohmann::json::parse(data_file), "test_mon" } };
 }
