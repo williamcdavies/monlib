@@ -3,6 +3,7 @@
 
 #include <nlohmann/json.hpp>
 #include <nlohmann/json_fwd.hpp>
+#include <stdexcept>
 #include <string>
 
 
@@ -17,6 +18,25 @@ namespace monlib {
             /* mon::mon */
             mon() = default;
             mon(const nlohmann::json& root, const std::string& primary_key);
+
+            /* mon::get */
+            template <typename T>
+            T get(const std::string& key) const {
+                if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
+
+                return this->data_.at(key).get<T>();
+            }
+
+            /* mon::set */
+            template <typename T>
+            void set(const std::string& key, const T& value) {
+                if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
+                
+                this->data_[key] = value;
+            }
+
+            /* mon::has */
+            bool has(const std::string& key) const;
     };
 
 

@@ -12,4 +12,12 @@ namespace monlib {
     mon::mon(const nlohmann::json& root, const std::string& primary_key) { this->data_ = root.at(primary_key); }
 
 
+    /* mon::has*/
+    bool mon::has(const std::string& key) const {
+        if (this->data_.find(key) == this->data_.end()) return false;
+
+        return true;
+    }
+
+
 } // namespace monlib
