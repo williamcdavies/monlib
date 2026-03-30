@@ -195,6 +195,97 @@ TEST_F(MonFixture, GetIntOnInvalidValueThrowsInvalidArgument) {
 }
 
 
+/* mon::set */
+TEST_F(MonFixture, SetOnValidKeySetsValidValue) {
+    mon.set<std::string>("valid_key", "another_valid_value");
+    ASSERT_EQ(mon.get<std::string>("valid_key"), "another_valid_value");
+}
+
+
+TEST_F(MonFixture, SetOnInvalidKeyThrowsOutOfRange) {
+    ASSERT_THROW(mon.set<std::string>("invalid_key", "another_valid_value"), std::out_of_range);
+}
+
+
+TEST_F(MonFixture, SetUnsignedShortSetsValidValue) {
+    mon.set<unsigned short>("valid_unsigned_short_key", std::numeric_limits<unsigned short>::max() - 1);
+    ASSERT_EQ(mon.get<unsigned short>("valid_unsigned_short_key"), std::numeric_limits<unsigned short>::max() - 1);
+}
+
+
+TEST_F(MonFixture, SetUnsignedIntSetsValidValue) {
+    mon.set<unsigned int>("valid_unsigned_int_key", std::numeric_limits<unsigned int>::max() - 1);
+    ASSERT_EQ(mon.get<unsigned int>("valid_unsigned_int_key"), std::numeric_limits<unsigned int>::max() - 1);
+}
+
+
+TEST_F(MonFixture, SetLongSetsValidValue) {
+    mon.set<long>("valid_long_key", std::numeric_limits<long>::min() + 1);
+    ASSERT_EQ(mon.get<long>("valid_long_key"), std::numeric_limits<long>::min() + 1);
+}
+
+
+TEST_F(MonFixture, SetUnsignedLongSetsValidValue) {
+    mon.set<unsigned long>("valid_unsigned_long_key", std::numeric_limits<unsigned long>::max() - 1);
+    ASSERT_EQ(mon.get<unsigned long>("valid_unsigned_long_key"), std::numeric_limits<unsigned long>::max() - 1);
+}
+
+
+TEST_F(MonFixture, SetLongLongSetsValidValue) {
+    mon.set<long long>("valid_long_long_key", std::numeric_limits<long long>::min() + 1);
+    ASSERT_EQ(mon.get<long long>("valid_long_long_key"), std::numeric_limits<long long>::min() + 1);
+}
+
+
+TEST_F(MonFixture, SetUnsignedLongLongSetsValidValue) {
+    mon.set<unsigned long long>("valid_unsigned_long_long_key", std::numeric_limits<unsigned long long>::max() - 1);
+    ASSERT_EQ(mon.get<unsigned long long>("valid_unsigned_long_long_key"), std::numeric_limits<unsigned long long>::max() - 1);
+}
+
+
+TEST_F(MonFixture, SetFloatSetsValidValue) {
+    mon.set<float>("valid_float_key", 6.28f);
+    ASSERT_NEAR(mon.get<float>("valid_float_key"), 6.28f, std::numeric_limits<float>::epsilon());
+}
+
+
+TEST_F(MonFixture, SetDoubleSetsValidValue) {
+    mon.set<double>("valid_double_key", 6.28);
+    ASSERT_NEAR(mon.get<double>("valid_double_key"), 6.28, std::numeric_limits<double>::epsilon());
+}
+
+
+TEST_F(MonFixture, SetLongDoubleSetsValidValue) {
+    mon.set<long double>("valid_long_double_key", 6.28L);
+    ASSERT_NEAR(mon.get<long double>("valid_long_double_key"), 6.28L, std::numeric_limits<long double>::epsilon());
+}
+
+
+TEST_F(MonFixture, SetBoolSetsValidValue) {
+    mon.set<bool>("valid_bool_key", false);
+    ASSERT_EQ(mon.get<bool>("valid_bool_key"), false);
+}
+
+
+TEST_F(MonFixture, SetVoidPtrSetsValidValue) {
+    mon.set<void*>("valid_void_ptr_key", this);
+    ASSERT_EQ(mon.get<void*>("valid_void_ptr_key"), this);
+}
+
+
+TEST_F(MonFixture, SetShortSetsValidValue) {
+    mon.set<short>("valid_short_key", std::numeric_limits<short>::min() + 1);
+    ASSERT_EQ(mon.get<short>("valid_short_key"), std::numeric_limits<short>::min() + 1);
+}
+
+
+TEST_F(MonFixture, SetIntSetsValidValue) {
+    mon.set<int>("valid_int_key", std::numeric_limits<int>::min() + 1);
+    ASSERT_EQ(mon.get<int>("valid_int_key"), std::numeric_limits<int>::min() + 1);
+}
+
+
+/* mon::has */
 TEST_F(MonFixture, HasOnValidKeyReturnsTrue) {
     ASSERT_EQ(mon.has("valid_key"), true);
 }
@@ -202,15 +293,4 @@ TEST_F(MonFixture, HasOnValidKeyReturnsTrue) {
 
 TEST_F(MonFixture, HasOnInvalidKeyReturnsFalse) {
     ASSERT_EQ(mon.has("invalid_key"), false);
-}
-
-
-/* mon::set */
-TEST_F(MonFixture, SetOnValidKeySetsValidValue) {
-    mon.set<std::string>("valid_key", "another_valid_value");
-    ASSERT_EQ(mon.get<std::string>("valid_key"), "another_valid_value");
-}
-
-TEST_F(MonFixture, SetOnInvalidKeyThrowsOutOfRange) {
-    ASSERT_THROW(mon.set<std::string>("invalid_key", "another_valid_value"), std::out_of_range);
 }
