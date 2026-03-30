@@ -12,7 +12,7 @@ namespace monlib {
 
     class mon {
         private:
-            std::unordered_map<std::string, std::string> data;
+            std::unordered_map<std::string, std::string> data_;
         
         public:
             /* mon::mon */
@@ -24,9 +24,9 @@ namespace monlib {
             template<typename T>
             T get(const std::string& key) const {
                 if (!this->has(key)) throw std::out_of_range("Key '" + key + "' does not exist");
-
+                
                 T                  value;
-                const std::string& value_as_string = this->data.at(key);
+                const std::string& value_as_string = this->data_.at(key);
                 std::stringstream  ss(value_as_string);
 
                 ss >> value;
@@ -49,7 +49,7 @@ namespace monlib {
                 ss << value;
                 if (ss.fail()) throw std::invalid_argument("Value cannot be serialized to string");
 
-                this->data.at(key) = ss.str();
+                this->data_.at(key) = ss.str();
             }
 
             template<>
