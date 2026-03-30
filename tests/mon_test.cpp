@@ -10,7 +10,7 @@
 class MonFixture : public ::testing::Test {
     protected:
         void SetUp() override {
-            mon = monlib::mon(std::unordered_map<std::string, std::string>{
+            mon = monlib::mon{std::unordered_map<std::string, std::string>{
                 {"valid_key", "valid_value"},
                 {"valid_unsigned_short_key",     std::to_string(std::numeric_limits<unsigned short>::max())    },
                 {"valid_unsigned_int_key",       std::to_string(std::numeric_limits<unsigned int>::max())      },
@@ -25,7 +25,7 @@ class MonFixture : public ::testing::Test {
                 {"valid_void_ptr_key",           std::to_string(0x00000000)                                    },
                 {"valid_short_key",              std::to_string(std::numeric_limits<short>::min())             },
                 {"valid_int_key",                std::to_string(std::numeric_limits<int>::min())               }
-            });
+            }};
         }
 
         void TearDown() override {
@@ -43,13 +43,13 @@ TEST(MonTest, CanConstructMonObject) {
 
 
 TEST(MonTest, CanConstructMonObjectFromParameters) {
-    monlib::mon mon(std::unordered_map<std::string, std::string>{{"valid_key", "valid_value"}});
+    monlib::mon mon{std::unordered_map<std::string, std::string>{{"valid_key", "valid_value"}}};
     ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
 }
 
 
 TEST(MonTest, CanConstructMonObjectFromReference) {
-    monlib::mon mon(monlib::mon(std::unordered_map<std::string, std::string>{{"valid_key", "valid_value"}}));
+    monlib::mon mon{monlib::mon{std::unordered_map<std::string, std::string>{{"valid_key", "valid_value"}}}};
     ASSERT_EQ(mon.get<std::string>("valid_key"), "valid_value");
 }
 

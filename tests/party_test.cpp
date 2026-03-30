@@ -8,7 +8,7 @@
 class PartyFixture : public ::testing::Test {
     protected:
         void SetUp() override {
-            party = monlib::party();
+            party = monlib::party{};
         }
 
         void TearDown() override {
@@ -27,11 +27,11 @@ TEST(PartyTest, CanConstructPartyObject) {
 
 TEST(PartyTest, CanConstructPartyObjectFromParameters) {
     std::vector<monlib::mon> mons;
-    monlib::party party(mons);
+    monlib::party party{mons};
 }
 
 
 TEST(PartyTest, CanConstructPartyObjectFromReference) {
     std::vector<monlib::mon> mons;
-    monlib::party(monlib::party(mons));
+    monlib::party(monlib::party{mons});
 }
