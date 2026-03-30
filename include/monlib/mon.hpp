@@ -27,6 +27,23 @@ namespace monlib {
                 return this->data_.at(key).get<T>();
             }
 
+            /* mon::get_ptr */
+            template <typename T>
+            T* get_ptr(const std::string& key) {
+                if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
+
+                return this->data_.at(key).get_ptr<T*>();
+            }
+
+
+            /* mon::get_ref */
+            template <typename T>
+            T& get_ref(const std::string& key) {
+                if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
+
+                return this->data_.at(key).get_ref<T&>();
+            }
+
             /* mon::set */
             template <typename T>
             void set(const std::string& key, const T& value) {

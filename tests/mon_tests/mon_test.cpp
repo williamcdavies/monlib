@@ -54,6 +54,28 @@ TEST_F(MonFixture, GetOnInvalidKeyThrowsOutOfRange) {
 }
 
 
+/* mon::get_ptr */
+TEST_F(MonFixture, GetPtrOnValidKeyReturnsValidValue) {
+    ASSERT_EQ(*mon.get_ptr<std::string>("valid_key"), "valid_value");
+}
+
+
+TEST_F(MonFixture, GetPtrOnInvalidKeyThrowsOutOfRange) {
+    ASSERT_THROW(mon.get_ptr<std::string>("invalid_key"), std::out_of_range);
+}
+
+
+/* mon::get_ref */
+TEST_F(MonFixture, GetRefOnValidKeyReturnsValidValue) {
+    ASSERT_EQ(mon.get_ref<std::string>("valid_key"), "valid_value");
+}
+
+
+TEST_F(MonFixture, GetRefOnInvalidKeyThrowsOutOfRange) {
+    ASSERT_THROW(mon.get_ref<std::string>("invalid_key"), std::out_of_range);
+}
+
+
 /* mon::set */
 TEST_F(MonFixture, SetOnValidKeySetsValidValue) {
     mon.set<std::string>("valid_key", "another_valid_value");
