@@ -14,9 +14,7 @@ namespace monlib {
 
     /* mon::has*/
     bool mon::has(const std::string& key) const {
-        if (this->data_.find(key) == this->data_.end()) return false;
-
-        return true;
+        return this->data_.contains(key);
     }
 
 
