@@ -110,6 +110,7 @@ TEST(MonTest, WriteToUpdatesTargetValue) {
     {
         std::ifstream ifs{ tmp_file         };
         monlib::mon   mon{ ifs, "Bulbasaur" };
+        ifs.close();
 
         mon.set<uint64_t>("id", 0);
         mon.write_to(tmp_file);
@@ -117,6 +118,7 @@ TEST(MonTest, WriteToUpdatesTargetValue) {
 
     std::ifstream ifs{ tmp_file         };
     monlib::mon   mon{ ifs, "Bulbasaur" };
+    ifs.close();
 
     ASSERT_EQ(mon.get<uint64_t>("id"), 0);
 

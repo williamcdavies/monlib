@@ -35,8 +35,16 @@ namespace monlib {
     /* mon::write_to */
     void mon::write_to(const std::filesystem::path& destination) const {
         if (!std::filesystem::is_regular_file(destination)) throw std::runtime_error("Path '" + destination.string() + "' is not a regular file");
+
+        std::ifstream  ifs { destination                };
+        nlohmann::json root{ nlohmann::json::parse(ifs) };
+        ifs.close();
+
+        root[this->pkey_] = this->data_;
+
+        std::ofstream ofs{ destination };
+        ofs << root.dump(4);
+        ofs.close();
     }
-
-
 
 } // namespace monlib
