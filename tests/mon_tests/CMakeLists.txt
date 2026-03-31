@@ -5,6 +5,7 @@ file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(mon_test 
     GTest::gtest_main 
     monlib
+    test_utils
 )
 gtest_discover_tests(mon_test 
     PROPERTIES LABELS "mon"

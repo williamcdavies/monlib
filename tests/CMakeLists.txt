@@ -10,5 +10,8 @@ FetchContent_MakeAvailable(googletest)
 
 include(GoogleTest)
 
-add_subdirectory(mon_tests)
+add_library(test_utils INTERFACE)
+target_include_directories(test_utils INTERFACE utils)
+
+add_subdirectory(mon_tests  )
 add_subdirectory(party_tests)
