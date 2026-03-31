@@ -1,9 +1,18 @@
 {
     "Bulbasaur": {
-        "id": 1,
+        "id":   1,
         "type": [
-            "grass",
+            "grass", 
             "poison"
+        ],
+        "species": "Seed Pokémon",
+        "height": 0.7,
+        "weight": 6.9,
+        "abilities": [
+            "Overgrow"
+        ],
+        "hidden_abilities": [
+            "Chlorophyll"
         ]
     }
 }
