@@ -12,11 +12,11 @@ namespace monlib {
 
 
     /* mon::mon */
-    mon::mon(const nlohmann::json& root,      const std::string& pkey): 
+    mon::mon(const nlohmann::json& root, const std::string& pkey): 
         data_(root.at(pkey)), 
         pkey_(pkey) {}
-    mon::mon(      std::ifstream&  data_file, const std::string& pkey): 
-        data_(nlohmann::json::parse(data_file).at(pkey)),
+    mon::mon(      std::ifstream&  ifs,  const std::string& pkey): 
+        data_(nlohmann::json::parse(ifs).at(pkey)),
         pkey_(pkey) {}
 
 
@@ -36,15 +36,19 @@ namespace monlib {
     void mon::write_to(const std::filesystem::path& destination) const {
         if (!std::filesystem::is_regular_file(destination)) throw std::runtime_error("Path '" + destination.string() + "' is not a regular file");
 
+        /* read */
         std::ifstream  ifs { destination                };
         nlohmann::json root{ nlohmann::json::parse(ifs) };
         ifs.close();
 
-        root[this->pkey_] = this->data_;
+        /* update */
+        root.at(this->pkey_) = this->data_;
 
+        /* write */
         std::ofstream ofs{ destination };
         ofs << root.dump(4);
         ofs.close();
     }
+
 
 } // namespace monlib

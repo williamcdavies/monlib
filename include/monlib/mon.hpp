@@ -20,8 +20,8 @@ namespace monlib {
         public:
             /* mon::mon */
             mon() = default;
-            mon(const nlohmann::json& root,      const std::string& pkey);
-            mon(      std::ifstream&  data_file, const std::string& pkey);
+            mon(const nlohmann::json& root, const std::string& pkey);
+            mon(      std::ifstream&  ifs,  const std::string& pkey);
 
             
             /* mon::get */
@@ -60,7 +60,7 @@ namespace monlib {
             void set(const std::string& key, const T& value) {
                 if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
                 
-                this->data_[key] = value;
+                this->data_.at(key) = value;
             }
 
 
