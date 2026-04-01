@@ -16,8 +16,8 @@ class MonFixture : public ::testing::Test {
     protected:
         void SetUp() override {
             std::ifstream ifs{ "data/mon_test.json" };
-            
-            mon = monlib::mon{ ifs, "Bulbasaur" };
+            mon = monlib::mon{ ifs, "Bulbasaur"     };
+            ifs.close();
         }
 
         void TearDown() override {
@@ -86,41 +86,40 @@ TEST_F(MonFixture, GetRefOnInvalidKeyThrowsOutOfRange) {
 
 
 /* mon::get_pkey */
-TEST_F(MonFixture, GetPkeyReturnsExpectedValue) {
+TEST_F(MonFixture, GetPkeyReturnsPrimaryKey) {
     ASSERT_EQ(mon.get_pkey(), "Bulbasaur");
 }
 
 
 /* mon::set */
-TEST_F(MonFixture, SetOnValidKeySetsValidValue) {
-    mon.set<uint64_t>("id", 0);
+TEST_F(MonFixture, SetOnValidKeySetsExpectedValue) {
+    mon.set("id", 0);
     ASSERT_EQ(mon.get<uint64_t>("id"), 0);
 }
 
 
 TEST_F(MonFixture, SetOnInvalidKeyThrowsOutOfRange) {
-    ASSERT_THROW(mon.set<uint64_t>("invalid_key", 0), std::out_of_range);
+    ASSERT_THROW(mon.set("invalid_key", 0), std::out_of_range);
 }
 
 
 /* mon::write_to */
-TEST(MonTest, WriteToUpdatesTargetValue) {
+TEST_F(MonFixture, WriteToValidPathUpdatesExpectedObject) {
     std::filesystem::path tmp_file{ make_temporary("data/mon_test.json") };
     
-    {
-        std::ifstream ifs{ tmp_file         };
-        monlib::mon   mon{ ifs, "Bulbasaur" };
-        ifs.close();
-
-        mon.set<uint64_t>("id", 0);
-        mon.write_to(tmp_file);
-    }
-
-    std::ifstream ifs{ tmp_file         };
-    monlib::mon   mon{ ifs, "Bulbasaur" };
+    mon.set("id", 0);
+    mon.write_to(tmp_file);
+    
+    std::ifstream  ifs { tmp_file                                   };
+    nlohmann::json data{ nlohmann::json::parse(ifs).at("Bulbasaur") };
     ifs.close();
-
-    ASSERT_EQ(mon.get<uint64_t>("id"), 0);
+    
+    ASSERT_EQ(data.at("id"), 0);
 
     std::filesystem::remove(tmp_file);
+}
+
+
+TEST_F(MonFixture, WriteToInvalidPathThrowsRuntimeError) {
+    ASSERT_THROW(mon.write_to(std::filesystem::temp_directory_path()), std::runtime_error);
 }
