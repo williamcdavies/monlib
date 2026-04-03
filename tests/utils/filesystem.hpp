@@ -6,6 +6,7 @@
 #include <string>
 
 
+/* make_temporary */
 inline std::filesystem::path make_temporary(const std::filesystem::path& source) {
     if (!std::filesystem::is_regular_file(source)) throw std::runtime_error("Path '" + source.string() + "' is not a regular file");
 
