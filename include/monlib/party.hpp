@@ -16,7 +16,7 @@ namespace monlib {
             /* party::party */
             party() = default;
             party(const std::vector<monlib::mon>& mons);
-    };
+    }; // party
 
 
 } // namespace monlib
