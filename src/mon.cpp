@@ -37,8 +37,8 @@ namespace monlib {
         if (!std::filesystem::is_regular_file(destination)) throw std::runtime_error("Path '" + destination.string() + "' is not a regular file");
 
         /* read */
-        std::ifstream  ifs { destination                };
-        nlohmann::json root{ nlohmann::json::parse(ifs) };
+        std::ifstream  ifs{ destination };
+        nlohmann::json root = nlohmann::json::parse(ifs);
         ifs.close();
 
         /* update */

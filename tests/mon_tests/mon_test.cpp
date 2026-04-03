@@ -98,8 +98,8 @@ TEST_F(MonFixture, WriteToValidPathUpdatesExpectedObject) {
     mon.set("id", 0);
     mon.write_to(tmp_file);
     
-    std::ifstream  ifs { tmp_file                                   };
-    nlohmann::json data{ nlohmann::json::parse(ifs).at("Bulbasaur") };
+    std::ifstream  ifs{ tmp_file };
+    nlohmann::json data = nlohmann::json::parse(ifs).at("Bulbasaur");
     ifs.close();
     
     ASSERT_EQ(data.at("id"), 0);
