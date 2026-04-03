@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <monlib/mon.hpp>
 
-#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -47,41 +46,8 @@ TEST(MonTest, CanConstructMonObjectFromInputFileStream) {
 
 
 TEST(MonTest, CanConstructMonObjectFromReference) {
-    std::ifstream ifs{ "data/mon_test.json"                                   };
-    monlib::mon   mon{ monlib::mon{ nlohmann::json::parse(ifs), "Bulbasaur" } };
-}
-
-
-/* mon::get */
-TEST_F(MonFixture, GetOnValidKeyReturnsExpectedValue) {
-    ASSERT_EQ(mon.get<uint64_t>("id"), 1);
-}
-
-
-TEST_F(MonFixture, GetOnInvalidKeyThrowsOutOfRange) {
-    ASSERT_THROW(mon.get<uint64_t>("invalid_key"), std::out_of_range);
-}
-
-
-/* mon::get_ptr */
-TEST_F(MonFixture, GetPtrOnValidKeyReturnsExpectedValue) {
-    ASSERT_EQ(*mon.get_ptr<uint64_t>("id"), 1);
-}
-
-
-TEST_F(MonFixture, GetPtrOnInvalidKeyThrowsOutOfRange) {
-    ASSERT_THROW(mon.get_ptr<uint64_t>("invalid_key"), std::out_of_range);
-}
-
-
-/* mon::get_ref */
-TEST_F(MonFixture, GetRefOnValidKeyReturnsExpectedValue) {
-    ASSERT_EQ(mon.get_ref<uint64_t>("id"), 1);
-}
-
-
-TEST_F(MonFixture, GetRefOnInvalidKeyThrowsOutOfRange) {
-    ASSERT_THROW(mon.get_ref<uint64_t>("invalid_key"), std::out_of_range);
+    std::ifstream ifs{ "data/mon_test.json"            };
+    monlib::mon   mon{ monlib::mon{ ifs, "Bulbasaur" } };
 }
 
 
@@ -91,15 +57,37 @@ TEST_F(MonFixture, GetPkeyReturnsPrimaryKey) {
 }
 
 
+/* mon::get */
+TEST_F(MonFixture, GetOnValidKeyReturnsExpectedValue) {
+    ASSERT_EQ(mon.get<int>("id"), 1);
+}
+
+
+TEST_F(MonFixture, GetOnInvalidKeyThrowsOutOfRange) {
+    ASSERT_THROW(mon.get<int>("invalid_key"), std::out_of_range);
+}
+
+
 /* mon::set */
 TEST_F(MonFixture, SetOnValidKeySetsExpectedValue) {
     mon.set("id", 0);
-    ASSERT_EQ(mon.get<uint64_t>("id"), 0);
+    ASSERT_EQ(mon.get<int>("id"), 0);
 }
 
 
 TEST_F(MonFixture, SetOnInvalidKeyThrowsOutOfRange) {
     ASSERT_THROW(mon.set("invalid_key", 0), std::out_of_range);
+}
+
+
+/* mon::has */
+TEST_F(MonFixture, HasOnValidKeyReturnsTrue) {
+    ASSERT_TRUE(mon.has("id"));
+}
+
+
+TEST_F(MonFixture, HasOnInvalidKeyReturnsFalse) {
+    ASSERT_FALSE(mon.has("invalid_key"));
 }
 
 
@@ -115,7 +103,7 @@ TEST_F(MonFixture, WriteToValidPathUpdatesExpectedObject) {
     ifs.close();
     
     ASSERT_EQ(data.at("id"), 0);
-
+    
     std::filesystem::remove(tmp_file);
 }
 

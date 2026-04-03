@@ -14,8 +14,8 @@ namespace monlib {
 
     class mon {
         private:
-            nlohmann::json data_;
             std::string    pkey_;
+            nlohmann::json data_;
 
         public:
             /* mon::mon */
@@ -23,36 +23,18 @@ namespace monlib {
             mon(const nlohmann::json& root, const std::string& pkey);
             mon(      std::ifstream&  ifs,  const std::string& pkey);
 
-            
+
+            /* mon::get_pkey */
+            std::string get_pkey() const;
+
+
             /* mon::get */
             template <typename T>
             T get(const std::string& key) const {
                 if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
 
-                return this->data_.at(key).get<T>();
+                return this->data_[key].get<T>();
             }
-
-
-            /* mon::get_ptr */
-            template <typename T>
-            T* get_ptr(const std::string& key) {
-                if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
-
-                return this->data_.at(key).get_ptr<T*>();
-            }
-
-
-            /* mon::get_ref */
-            template <typename T>
-            T& get_ref(const std::string& key) {
-                if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
-
-                return this->data_.at(key).get_ref<T&>();
-            }
-
-
-            /* mon::get_pkey */
-            std::string get_pkey() const;
 
 
             /* mon::set */
@@ -60,7 +42,7 @@ namespace monlib {
             void set(const std::string& key, const T& value) {
                 if (!this->has(key)) throw std::out_of_range("Key " + key + " cannot be found");
                 
-                this->data_.at(key) = value;
+                this->data_[key] = value;
             }
 
 
@@ -70,7 +52,7 @@ namespace monlib {
 
             /* mon::write_to */
             void write_to(const std::filesystem::path& destination) const;
-    };
+    }; // mon
 
 
 } // namespace monlib
