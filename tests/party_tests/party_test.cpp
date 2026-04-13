@@ -35,3 +35,4 @@ TEST(PartyTest, CanConstructPartyObjectFromReference) {
     std::vector<monlib::mon> mons;
     monlib::party(monlib::party{ mons });
 }
+
